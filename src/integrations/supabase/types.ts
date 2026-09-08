@@ -14,16 +14,210 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bloqueios: {
+        Row: {
+          created_at: string
+          data: string
+          horario_fim: string
+          horario_inicio: string
+          id: string
+          motivo: string | null
+          quadra_id: string
+        }
+        Insert: {
+          created_at?: string
+          data: string
+          horario_fim: string
+          horario_inicio: string
+          id?: string
+          motivo?: string | null
+          quadra_id: string
+        }
+        Update: {
+          created_at?: string
+          data?: string
+          horario_fim?: string
+          horario_inicio?: string
+          id?: string
+          motivo?: string | null
+          quadra_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bloqueios_quadra_id_fkey"
+            columns: ["quadra_id"]
+            isOneToOne: false
+            referencedRelation: "quadras"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      precos: {
+        Row: {
+          id: string
+          quadra_id: string
+          turno: Database["public"]["Enums"]["turno"]
+          valor: number
+        }
+        Insert: {
+          id?: string
+          quadra_id: string
+          turno: Database["public"]["Enums"]["turno"]
+          valor?: number
+        }
+        Update: {
+          id?: string
+          quadra_id?: string
+          turno?: Database["public"]["Enums"]["turno"]
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "precos_quadra_id_fkey"
+            columns: ["quadra_id"]
+            isOneToOne: false
+            referencedRelation: "quadras"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quadras: {
+        Row: {
+          ativa: boolean
+          created_at: string
+          foto_url: string | null
+          id: string
+          nome: string
+          ordem: number
+          tipo_esporte: string
+        }
+        Insert: {
+          ativa?: boolean
+          created_at?: string
+          foto_url?: string | null
+          id?: string
+          nome: string
+          ordem?: number
+          tipo_esporte?: string
+        }
+        Update: {
+          ativa?: boolean
+          created_at?: string
+          foto_url?: string | null
+          id?: string
+          nome?: string
+          ordem?: number
+          tipo_esporte?: string
+        }
+        Relationships: []
+      }
+      reservas: {
+        Row: {
+          created_at: string
+          data: string
+          dia_semana_recorrencia: number | null
+          horario_fim: string
+          horario_inicio: string
+          id: string
+          nome_cliente: string
+          observacao: string | null
+          quadra_id: string
+          recorrente: boolean
+          serie_ativa: boolean
+          serie_id: string | null
+          status: Database["public"]["Enums"]["reserva_status"]
+          telefone: string
+        }
+        Insert: {
+          created_at?: string
+          data: string
+          dia_semana_recorrencia?: number | null
+          horario_fim: string
+          horario_inicio: string
+          id?: string
+          nome_cliente: string
+          observacao?: string | null
+          quadra_id: string
+          recorrente?: boolean
+          serie_ativa?: boolean
+          serie_id?: string | null
+          status?: Database["public"]["Enums"]["reserva_status"]
+          telefone: string
+        }
+        Update: {
+          created_at?: string
+          data?: string
+          dia_semana_recorrencia?: number | null
+          horario_fim?: string
+          horario_inicio?: string
+          id?: string
+          nome_cliente?: string
+          observacao?: string | null
+          quadra_id?: string
+          recorrente?: boolean
+          serie_ativa?: boolean
+          serie_id?: string | null
+          status?: Database["public"]["Enums"]["reserva_status"]
+          telefone?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reservas_quadra_id_fkey"
+            columns: ["quadra_id"]
+            isOneToOne: false
+            referencedRelation: "quadras"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      claim_admin: { Args: never; Returns: boolean }
+      disponibilidade: {
+        Args: { _ate: string; _de: string; _quadra_id: string }
+        Returns: {
+          data: string
+          horario_fim: string
+          horario_inicio: string
+          tipo: string
+        }[]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin"
+      reserva_status: "pendente" | "confirmada" | "cancelada"
+      turno: "manha" | "tarde" | "noite"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +344,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin"],
+      reserva_status: ["pendente", "confirmada", "cancelada"],
+      turno: ["manha", "tarde", "noite"],
+    },
   },
 } as const
