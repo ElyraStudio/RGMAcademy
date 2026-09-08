@@ -110,8 +110,9 @@ function Home() {
     queryFn: async (): Promise<SlotOcupado[]> => {
       const { data, error } = await supabase.rpc("disponibilidade", {
         _quadra_id: quadraAtual!.id,
-        _de: dias[0],
-        _ate: dias[6],
+        _de: dias[0]!,
+        _ate: dias[6]!,
+
       });
       if (error) throw error;
       return (data ?? []) as SlotOcupado[];
