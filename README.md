@@ -1,9 +1,5 @@
 # RGM Court Booker
 
-Prompt para o Lovable:
-
-Crie um sistema web de agendamento de quadras esportivas para a RGM Academy, com suporte a múltiplas quadras (o número deve ser configurável, não fixo em 2 — o admin pode cadastrar quantas quadras quiser).
-
 1. Página inicial (cliente)
 
 Seleção de qual quadra (ex: Quadra 1, Quadra 2, Quadra 3...), cada uma com nome, foto e tipo de esporte (futsal/vôlei/beach tennis)
